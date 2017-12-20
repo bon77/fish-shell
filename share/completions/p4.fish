@@ -45,7 +45,7 @@ function __fish_print_p4_changelists -d "Reformat output from `p4 changes` to si
             continue
         end
         # see output format ^^^
-        set -l change_match (string match -ar '^Change ([0-9]+) on [0-9/]+ by (\S+).*$' $line)
+        set -l change_match (string match -ar '^Change ([0-9]+) on [0-9/]+ by (\S+).*$' -- $line)
         if test -n "$change_match"
             if test -n "$result"
                 echo $result
@@ -79,7 +79,7 @@ function __fish_print_p4_branches -d "Prints the list of all defined branches on
     set -l branches (p4 branches)
     for branch in $branches
         # "Branch branch-name YYYY/MM/DD 'description text'"
-        set -l matches (string match -ar '^Branch\s+(\S+)[^\']+\'(.+)\'$' $branch)
+        set -l matches (string match -ar '^Branch\s+(\S+)[^\']+\'(.+)\'$' -- $branch)
         if not set -q matches[2]
             # skip $branch if no match for branch name with description
             continue
